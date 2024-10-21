@@ -396,6 +396,10 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
+   if (oldPassword === newPassword) {
+    throw new ApiError(400, "New password can't be same as old password");
+  }
+  
   const user = await User.findById(req.user?._id);
 
   // check the old password
